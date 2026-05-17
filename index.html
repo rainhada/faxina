@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rainha da Faxina</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0a2a5c, #1e88e5);
+  padding: 20px;
+}
+
+.container {
+  background: #fff;
+  padding: 22px;
+  border-radius: 18px;
+  width: 92%;
+  max-width: 360px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0a2a5c;
+}
+
+.logo span {
+  color: #1e88e5;
+}
+
+.sub {
+  font-size: 13px;
+  color: #666;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background: #fafafa;
+}
+
+.label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #555;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  cursor: pointer;
+  text-align: left;
+  color: #222;
+  position: relative;
+}
+
+.dropdown-toggle.placeholder {
+  color: #999;
+}
+
+.dropdown-toggle::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #666;
+  border-bottom: 2px solid #666;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  width: 100%;
+  top: 110%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.25s;
+  z-index: 100;
+}
+
+.dropdown.open .dropdown-menu {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 12px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f1f5ff;
+}
+
+/* ERRO */
+.erro {
+  border-color: #e53935 !important;
+  background: #fff5f5;
+}
+
+.mensagem-erro {
+  color: #e53935;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0a2a5c, #1e88e5);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+  <div class="logo">Rainha <span>da Faxina</span></div>
+  <div class="sub">Orçamento rápido pelo WhatsApp</div>
+</div>
+
+<input id="nome" placeholder="Seu nome">
+
+<input 
+  id="telefone" 
+  placeholder="WhatsApp"
+  inputmode="numeric"
+  pattern="[0-9]*"
+  maxlength="11"
+>
+
+<input id="bairro" placeholder="Bairro">
+
+<label class="label">Tamanho do imóvel</label>
+<div class="dropdown" data-id="imovel">
+  <div class="dropdown-toggle placeholder">Selecione</div>
+  <div class="dropdown-menu">
+    <div class="dropdown-item">Flat / Studio</div>
+    <div class="dropdown-item">Apê pequeno até 70m²</div>
+    <div class="dropdown-item">Apê médio 71 a 100m²</div>
+    <div class="dropdown-item">Casa grande 100m²+</div>
+    <div class="dropdown-item">Outro</div>
+  </div>
+</div>
+
+<input id="imovelOutro" placeholder="Descreva o imóvel" style="display:none;">
+
+<label class="label">Serviço desejado</label>
+<div class="dropdown" data-id="servico">
+  <div class="dropdown-toggle placeholder">Selecione</div>
+  <div class="dropdown-menu">
+    <div class="dropdown-item">Limpeza padrão</div>
+    <div class="dropdown-item">Limpeza pesada</div>
+    <div class="dropdown-item">Pós-festa</div>
+    <div class="dropdown-item">Pós-obra</div>
+    <div class="dropdown-item">Limpeza de mudança (chegada)</div>
+    <div class="dropdown-item">Limpeza de mudança (saída)</div>
+  </div>
+</div>
+
+<label class="label">Quantidade de quartos</label>
+<div class="dropdown" data-id="quartos">
+  <div class="dropdown-toggle placeholder">Selecione</div>
+  <div class="dropdown-menu">
+    <div class="dropdown-item">1</div>
+    <div class="dropdown-item">2</div>
+    <div class="dropdown-item">3</div>
+    <div class="dropdown-item">4 ou mais</div>
+  </div>
+</div>
+
+<label class="label">Quantidade de banheiros</label>
+<div class="dropdown" data-id="banheiros">
+  <div class="dropdown-toggle placeholder">Selecione</div>
+  <div class="dropdown-menu">
+    <div class="dropdown-item">1</div>
+    <div class="dropdown-item">2</div>
+    <div class="dropdown-item">3</div>
+    <div class="dropdown-item">4 ou mais</div>
+  </div>
+</div>
+
+<label class="label">Data</label>
+<div class="dropdown" data-id="disponibilidade">
+  <div class="dropdown-toggle placeholder">Selecione</div>
+
+  <div class="dropdown-menu">
+    <div class="dropdown-item">A combinar no WhatsApp</div>
+  </div>
+</div>
+
+<label class="label">Horário</label>
+<div class="dropdown" data-id="horario">
+  <div class="dropdown-toggle placeholder">Selecione</div>
+  <div class="dropdown-menu">
+    <div class="dropdown-item">Manhã</div>
+    <div class="dropdown-item">Tarde</div>
+  </div>
+</div>
+
+<textarea id="obs" placeholder="Observações"></textarea>
+
+<button onclick="enviar()">Solicitar Orçamento</button>
+
+</div>
+
+<script>
+const valores = {};
+
+/* SOMENTE NÚMEROS NO WHATSAPP */
+const telefoneInput = document.getElementById("telefone");
+
+telefoneInput.addEventListener("input", () => {
+  telefoneInput.value = telefoneInput.value.replace(/\D/g, "");
+});
+
+/* LIMPAR ERRO */
+function limparErro(input) {
+  input.classList.remove('erro');
+
+  const next = input.nextElementSibling;
+
+  if (next && next.classList.contains('mensagem-erro')) {
+    next.remove();
+  }
+}
+
+/* MOSTRAR ERRO */
+function mostrarErro(input, mensagem) {
+  input.classList.add('erro');
+
+  if (
+    input.nextElementSibling &&
+    input.nextElementSibling.classList.contains('mensagem-erro')
+  ) return;
+
+  const msg = document.createElement('div');
+
+  msg.className = 'mensagem-erro';
+  msg.innerText = mensagem;
+
+  input.insertAdjacentElement('afterend', msg);
+}
+
+/* INPUTS */
+document.querySelectorAll("input, textarea").forEach(el => {
+  el.addEventListener("input", () => limparErro(el));
+});
+
+/* DROPDOWNS */
+document.querySelectorAll(".dropdown").forEach(drop => {
+
+  const toggle = drop.querySelector(".dropdown-toggle");
+
+  toggle.addEventListener("click", (e) => {
+
+    e.stopPropagation();
+
+    const aberto = drop.classList.contains("open");
+
+    document.querySelectorAll(".dropdown").forEach(d => {
+      d.classList.remove("open");
+    });
+
+    if (!aberto) {
+      drop.classList.add("open");
+    }
+
+  });
+
+  drop.querySelectorAll(".dropdown-item").forEach(item => {
+
+    item.addEventListener("click", () => {
+
+      toggle.innerText = item.innerText;
+
+      toggle.classList.remove("placeholder");
+
+      valores[drop.dataset.id] = item.innerText;
+
+      drop.classList.remove("open");
+
+      limparErro(toggle);
+
+      if (drop.dataset.id === "imovel") {
+        imovelOutro.style.display =
+          item.innerText === "Outro" ? "block" : "none";
+      }
+
+    });
+
+  });
+
+});
+
+/* FECHAR FORA */
+document.addEventListener("click", () => {
+  document.querySelectorAll(".dropdown").forEach(d => {
+    d.classList.remove("open");
+  });
+});
+
+/* VALIDAÇÃO */
+function enviar() {
+
+  let erro = false;
+
+  function validar(id, nome) {
+
+    const isDropdown = document.querySelector(`[data-id="${id}"]`);
+
+    const el = isDropdown
+      ? isDropdown.querySelector(".dropdown-toggle")
+      : document.getElementById(id);
+
+    const valor = isDropdown
+      ? valores[id]
+      : el.value;
+
+    if (!valor) {
+
+      mostrarErro(el, `Preencha ${nome}`);
+
+      if (!erro) {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }
+
+      erro = true;
+    }
+  }
+
+  validar("nome","Nome");
+  validar("telefone","WhatsApp");
+  validar("bairro","Bairro");
+  validar("imovel","Tamanho do imóvel");
+
+  if (valores.imovel === "Outro") {
+    validar("imovelOutro","Descrição do imóvel");
+  }
+
+  validar("servico","Serviço");
+  validar("quartos","Quartos");
+  validar("banheiros","Banheiros");
+  validar("disponibilidade","Data");
+  validar("horario","Horário");
+
+  if (erro) return;
+
+  const msg = `Olá, gostaria de solicitar um orçamento:
+
+Nome: ${nome.value}
+WhatsApp: ${telefone.value}
+Bairro: ${bairro.value}
+
+Imóvel: ${
+  valores.imovel === "Outro"
+    ? imovelOutro.value
+    : valores.imovel
+}
+
+Quartos: ${valores.quartos}
+Banheiros: ${valores.banheiros}
+
+Serviço: ${valores.servico}
+
+Data: ${valores.disponibilidade}
+Horário: ${valores.horario}
+
+Observações: ${obs.value}`;
+
+  window.open(
+    "https://wa.me/5583986032708?text=" +
+    encodeURIComponent(msg)
+  );
+}
+</script>
+
+</body>
+</html>
